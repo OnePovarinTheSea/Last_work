@@ -30,7 +30,7 @@ class SpaceInvaders2:
         self.ball = Ball(
             SRC + 'кольцокотла.png',
             WIN_W // 2, WIN_H // 2,
-            SNITCH[0],SNITCH[1],3
+            SNITCH[0],SNITCH[1],1
         )
 
     # продолжение вышеописанного класса
@@ -74,11 +74,19 @@ class SpaceInvaders2:
 
     def _process_game_logic(self):
         self.ball.move()
+        if sprite.collide_mask(self.ball, self.sssss1snake):
+            self.ball.velocity = self.ball.velocity.reflect(self.sssss1snake.velocity)
+            self.ball.left_turn = False
+        if sprite.collide_rect(self.ball, self.sssss2snake):
+            self.ball.velocity = self.ball.velocity.reflect(self.sssss2snake.velocity)
+            self.ball.left_turn = True
 
 
     def _draw(self):
         self.background.draw(self.screen)
+        self.sssss1snake.rotate()
         self.sssss1snake.draw(self.screen)
+        self.sssss2snake.rotate()
         self.sssss2snake.draw(self.screen)
         self.ball.draw(self.screen)
         self.clock.tick(FPS)
